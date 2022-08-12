@@ -28,11 +28,26 @@ Cypress.Commands.add('cadastro', (nome, email, senha, confirmaSenha) => {
     cy.get('[data-test="register-name"] > .MuiInputBase-root > .MuiInputBase-input').type(nome)
     cy.get('[data-test="register-email"] > .MuiInputBase-root > .MuiInputBase-input').type(email)
     cy.get('[data-test="register-password"] > .MuiInputBase-root > .MuiInputBase-input').type(senha)
-    cy.get('[data-test="register-password2"] > .MuiInputBase-root > .MuiInputBase-input').type(confirmaSenha)    
+    cy.get('[data-test="register-password2"] > .MuiInputBase-root > .MuiInputBase-input').type(confirmaSenha)
 })
 
 Cypress.Commands.add('login', (name, mail) => {
     cy.get('[data-test="login-email"] > .MuiInputBase-root > .MuiInputBase-input').type(name)
     cy.get('[data-test="login-password"] > .MuiInputBase-root > .MuiInputBase-input').type(mail)
-    cy.get('[data-test="login-submit"]').click()        
+    cy.get('[data-test="login-submit"]').click()
 })
+
+Cypress.Commands.add('gerarToken', (name, mail) => {
+    cy.request({
+        method: 'POST',
+        url: 'api/auth',
+        body: {
+            "email": email,
+            "password": senha
+        }
+    }).then((response) => {
+        return response.body.jwt
+    })
+
+})
+
