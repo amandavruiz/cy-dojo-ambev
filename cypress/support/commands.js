@@ -25,19 +25,19 @@
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
 Cypress.Commands.add('cadastro', (nome, email, senha, confirmaSenha) => {
-    cy.get('[data-test="register-name"] > .MuiInputBase-root > .MuiInputBase-input').type(nome)
-    cy.get('[data-test="register-email"] > .MuiInputBase-root > .MuiInputBase-input').type(email)
-    cy.get('[data-test="register-password"] > .MuiInputBase-root > .MuiInputBase-input').type(senha)
-    cy.get('[data-test="register-password2"] > .MuiInputBase-root > .MuiInputBase-input').type(confirmaSenha)
+    cy.get('[data-test="register-name"]').type(nome)
+    cy.get('[data-test="register-email"]').type(email)
+    cy.get('[data-test="register-password"]').type(senha)
+    cy.get('[data-test="register-password2"]').type(confirmaSenha)
 })
 
 Cypress.Commands.add('login', (name, mail) => {
-    cy.get('[data-test="login-email"] > .MuiInputBase-root > .MuiInputBase-input').type(name)
-    cy.get('[data-test="login-password"] > .MuiInputBase-root > .MuiInputBase-input').type(mail)
+    cy.get('[data-test="login-email"]').type(name)
+    cy.get('[data-test="login-password"]').type(mail)
     cy.get('[data-test="login-submit"]').click()
 })
 
-Cypress.Commands.add('gerarToken', (name, mail) => {
+Cypress.Commands.add('gerarToken', (email, senha) => {
     cy.request({
         method: 'POST',
         url: 'api/auth',
@@ -47,6 +47,21 @@ Cypress.Commands.add('gerarToken', (name, mail) => {
         }
     }).then((response) => {
         return response.body.jwt
+    })
+
+})
+
+Cypress.Commands.add('appAction', (email, senha) => {
+    cy.request({
+        method: 'POST',
+        url: 'api/auth',
+        body: {
+            "email": email,
+            "password": senha
+        }
+    }).then((response) => {
+        //return response.body.jwt
+        cy.setCookie('jwt', response.body.jwt)
     })
 
 })

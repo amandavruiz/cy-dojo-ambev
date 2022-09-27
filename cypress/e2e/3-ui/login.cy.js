@@ -24,10 +24,16 @@ describe('Funcionalidade: Login', () => {
         cy.contains('Bem-vindo').should('exist')
     });
 
-    it.only('Login com sucesso - Import', () => {
+    it('Login com sucesso - Import', () => {
         cy.login(usuarios[1].usuario, usuarios[1].senha)
         cy.get('.large').should('contain','Dashboard')
         cy.contains('Bem-vindo').should('exist')
+    });
+
+    it.only('Login com App Actions', () => {
+        cy.appAction('amanda5@gmail.com','testeqa')
+        cy.visit('dashboard')
+        cy.get('.large').should('contain','Dashboard')
     });
 
 });
